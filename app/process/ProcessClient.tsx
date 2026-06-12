@@ -49,7 +49,7 @@ export default function ProcessClient() {
         opacity: 1,
         duration: 0.9,
         ease: 'power3.out',
-        delay: i * 0.05,
+        delay: i * 0.05, // <-- delay bilkul scrollTrigger ke brackets se bahar hona chahiye
         scrollTrigger: {
           trigger: c,
           start: 'top 85%',
