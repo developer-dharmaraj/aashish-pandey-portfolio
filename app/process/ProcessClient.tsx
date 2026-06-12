@@ -7,7 +7,14 @@ import { useScrollReveal } from '@/components/useScrollReveal'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const STEPS = [
+interface Step {
+  num: string;
+  title: string;
+  desc: string;
+  details: string[];
+}
+
+const STEPS: Step[] = [
   {
     num: '01', title: 'Discovery & Brief',
     desc: 'We start with a deep dive into your brand, goals, target audience, and competitors. I ask the right questions to understand exactly what you need and why.',
@@ -38,25 +45,37 @@ export default function ProcessClient() {
   const s1 = useScrollReveal<HTMLDivElement>({ stagger: 0.12 })
 
   useEffect(() => {
-    gsap.timeline({ defaults: { ease: 'power4.out' } })
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
       .fromTo(heroLine1.current, { y: '110%' }, { y: '0%', duration: 1 }, 0.3)
       .fromTo(heroLine2.current, { y: '110%' }, { y: '0%', duration: 1 }, 0.45)
       .fromTo(heroSub.current, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.7)
 
-    stepsRef.current?.querySelectorAll('.step-card').forEach((c, i) => {
-      gsap.fromTo(c, { y: 60, opacity: 0 }, {
-        y: 0,
-        opacity: 1,
-        duration: 0.9,
-        ease: 'power3.out',
-        delay: i * 0.05, // <-- delay bilkul scrollTrigger ke brackets se bahar hona chahiye
-        scrollTrigger: {
-          trigger: c,
-          start: 'top 85%',
-          once: true
-        },
+    const cards = stepsRef.current?.querySelectorAll('.step-card')
+
+    if (cards && cards.length > 0) {
+      cards.forEach((c, i) => {
+        gsap.fromTo(c,
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            delay: i * 0.05, // ✅ Main object vars context me sahi placement
+            scrollTrigger: {
+              trigger: c,
+              start: 'top 85%',
+              once: true
+            }
+          }
+        )
       })
-    })
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill())
+      tl.kill()
+    }
   }, [])
 
   return (
@@ -120,7 +139,7 @@ export default function ProcessClient() {
             ].map(c => (
               <div key={c.title} data-reveal data-hover className="about-card relative bg-bg-3 p-10 overflow-hidden transition-colors duration-300 hover:bg-[#1a1a1a]">
                 <span className="block text-3xl mb-5">{c.icon}</span>
-                <h3 className="font-display font-bold text-[17px] text-white mb-3">{c.title}</h3>
+                <span className="font-display block font-bold text-[17px] text-white mb-3">{c.title}</span>
                 <p className="text-sm text-muted leading-[1.6]">{c.desc}</p>
               </div>
             ))}
