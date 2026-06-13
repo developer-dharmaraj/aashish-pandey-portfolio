@@ -185,7 +185,6 @@ export default function ContactClient() {
               {[
                 { label: 'Email', val: 'pandeyaashish0501@gmail.com', href: 'mailto:pandeyaashish0501@gmail.com' },
                 { label: 'Phone', val: '+91 6261-501625', href: 'tel:+916261501625' },
-                { label: 'LinkedIn', val: 'in/aashishpandeycreative', href: 'https://linkedin.com/in/aashishpandeycreative' },
                 { label: 'Location', val: 'Mumbai / Ratlam, MP', href: '#' },
               ].map(c => (
                 <div key={c.label}>

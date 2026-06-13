@@ -3,7 +3,6 @@ import { Syne, Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import Cursor from '@/components/Cursor'
 
 const syne = Syne({ subsets:['latin'], weight:['400','500','600','700','800'], variable:'--font-syne' })
 const inter = Inter({ subsets:['latin'], weight:['300','400','500'], variable:'--font-inter' })
@@ -17,7 +16,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${syne.variable} ${inter.variable}`}>
       <body>
-        <Cursor />
         <Navbar />
         <main>{children}</main>
         <Footer />
